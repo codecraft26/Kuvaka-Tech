@@ -13,28 +13,34 @@ app.use(express.static('public'));
 let clients = [];
 
 // Socket.IO logic
+// Socket.IO logic
 io.on('connection', (socket) => {
-  console.log('A user connected', socket.id);
-
-  // Add client to the list
-  clients.push(socket);
-
-  console.log('clients', clients.length);
-
-  // Handle incoming messages
-  socket.on('message', (data) => {
-    console.log('Message received:', data);
-    // Broadcast the received message to all connected clients except the sender
-    socket.broadcast.emit('message', data);
+    console.log('A user connected', socket.id);
+  
+    // Add client to the list
+    clients.push(socket);
+  
+    console.log('clients', clients.length);
+  
+    // Handle incoming messages
+    socket.on('message', (data) => {
+      console.log('Message received:', data);
+  
+      // Broadcast the received message to all connected clients with sender information
+      socket.broadcast.emit('message', {
+        message: data.message,
+        sender: socket.id // Sending the socket ID as the sender information
+      });
+    });
+  
+    // Handle disconnection
+    socket.on('disconnect', () => {
+      console.log('A user disconnected');
+      // Remove disconnected client from the list
+      clients = clients.filter((client) => client !== socket);
+    });
   });
-
-  // Handle disconnection
-  socket.on('disconnect', () => {
-    console.log('A user disconnected');
-    // Remove disconnected client from the list
-    clients = clients.filter((client) => client !== socket);
-  });
-});
+  
 
 // Start the server
 const PORT = process.env.PORT || 3000;
