@@ -1,30 +1,31 @@
 const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
-const path = require('path'); // Import path module
 
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 
 // Serve static files from the public directory
-app.use(express.static(path.join(__dirname, 'public'))); // Serve files from the 'public' directory
+app.use(express.static('public'));
 
 // Store connected clients
 let clients = [];
 
 // Socket.IO logic
 io.on('connection', (socket) => {
-  console.log('A user connected',socket.id);
+  console.log('A user connected', socket.id);
 
   // Add client to the list
   clients.push(socket);
 
+  console.log('clients', clients.length);
+
   // Handle incoming messages
   socket.on('message', (data) => {
     console.log('Message received:', data);
-    // Broadcast the received message to all connected clients
-    io.emit('message', data);
+    // Broadcast the received message to all connected clients except the sender
+    socket.broadcast.emit('message', data);
   });
 
   // Handle disconnection
