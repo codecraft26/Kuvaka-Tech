@@ -65,6 +65,7 @@
 
     form {
       display: flex;
+      flex-direction: column; /* Align items vertically */
       justify-content: center;
       align-items: center;
       padding: 10px;
@@ -73,20 +74,22 @@
     }
 
     input {
-      flex: 1;
+      width: calc(100% - 20px); /* Adjust the width of the input box */
       padding: 10px;
       border: none;
       border-radius: 5px;
-      margin-right: 10px;
+      margin: 10px; /* Add margin to create spacing */
     }
 
     button {
+      width: calc(100% - 20px); /* Adjust the width of the button */
       padding: 10px 20px;
       border: none;
       border-radius: 5px;
       background-color: #007bff;
       color: #fff;
       cursor: pointer;
+      margin: 10px; /* Add margin to create spacing */
     }
   </style>
 </head>
@@ -95,35 +98,44 @@
     <ul id="messages"></ul>
   </div>
   <form id="form" action="">
-    <input id="input" autocomplete="off" /><button>Send</button>
+    <input id="input" autocomplete="off" placeholder="Type a message..." />
+    <button>Send</button>
   </form>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.3/socket.io.js"></script>
   <script>
     var socket = io();
-
+  
     var form = document.getElementById('form');
     var input = document.getElementById('input');
-
+  
     form.addEventListener('submit', function(e) {
       e.preventDefault();
       if (input.value) {
-        socket.emit('message', input.value);
+        socket.emit('message', { message: input.value }); // Sending message along with user information
         appendMessage(input.value, true); // Append own message to the right
         input.value = '';
       }
     });
-
-    socket.on('message', function(msg) {
-      appendMessage(msg, false); // Append other's message to the left
+  
+    socket.on('message', function(data) {
+      appendMessage(data.message, false, data.sender); // Append other's message to the left
     });
-
-    function appendMessage(message, isOwnMessage) {
+  
+    function appendMessage(message, isOwnMessage, sender) {
       var messages = document.getElementById('messages');
       var li = document.createElement('li');
       var messageClass = isOwnMessage ? 'own-message' : 'other-message';
       li.className = 'message ' + messageClass;
       li.innerHTML = '<div class="message-content">' + message + '</div>';
+  
+      if (!isOwnMessage) {
+        var senderTag = document.createElement('span');
+        senderTag.className = 'sender';
+        senderTag.textContent = ' - ' + sender;
+        li.appendChild(senderTag);
+      }
+  
       messages.appendChild(li);
       messages.scrollTop = messages.scrollHeight; // Scroll to bottom
     }
