@@ -29,7 +29,7 @@ async function handleNewConnection(socket) {
 
     // Add client to the list
     clients.push(socket);
-
+    socket.emit('userCount', clients.length);
     console.log('clients', clients.length);
 }
 
@@ -49,6 +49,8 @@ async function handleDisconnection(socket) {
     console.log(`A user disconnected  ${socket.id}`);
     // Remove disconnected client from the list
     clients = clients.filter((client) => client !== socket);
+
+    socket.emit('userCount', clients.length);
 }
 
 module.exports = { handleWebSocketEvents };
