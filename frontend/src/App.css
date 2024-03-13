@@ -1,0 +1,85 @@
+body {
+  font-family: sans-serif;
+  margin: 0;
+  background-color: #f0f0f0;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+#chat-container {
+  flex-grow: 1;
+  overflow-y: auto; /* Enable scrolling for chat messages */
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 15px;
+  margin: 15px;
+  width: 70%; /* Adjust width as needed */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+
+/* General message styling */
+.message {
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  display: flex; /* Allow horizontal layout for positioning */
+  max-width: 70%;
+}
+
+
+/* User's message (own message) */
+.own-message {
+  background-color: #e0f2ff;
+  justify-content: flex-end; /* Align to the right side */
+  margin-left: auto; /* Move to the right edge */
+}
+
+/* Message from other users */
+.other-message {
+  background-color: #f5f5f5;
+  justify-content: flex-start; /* Align to the left side */
+}
+
+/* Message content */
+.message-content {
+  margin: 0 10px;
+}
+
+/* Sender name (only displayed for other users' messages) */
+.sender {
+  font-style: italic;
+  font-size: 0.8rem;
+  color: #333;
+}
+#form {
+  position: fixed;
+  bottom: 15px;
+  width: 100%;
+  background-color: #fff;
+  display: flex;
+  padding: 10px;
+  border-top: 1px solid #ddd;
+}
+
+#input {
+  flex-grow: 1;
+  border: none;
+  outline: none;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 16px;
+  width: 70%; /* Adjust width as desired */
+}
+
+#form button {
+  background-color: #54a0ff;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}

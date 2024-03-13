@@ -20,8 +20,12 @@ function handleWebSocketEvents(server) {
         socket.on('disconnect', async () => {
             await handleDisconnection(socket);
         });
+
+        
+ 
     });
 }
+
 
 // Function to handle new connections
 async function handleNewConnection(socket) {
@@ -30,7 +34,12 @@ async function handleNewConnection(socket) {
     // Add client to the list
     clients.push(socket);
     socket.emit('userCount', clients.length);
+    socket.broadcast.emit('newUserConnected', socket.id);
+
+    socket.broadcast.emit('userCount', clients.length);
     console.log('clients', clients.length);
+
+
 }
 
 // Function to handle incoming messages
@@ -48,9 +57,15 @@ async function handleMessage(socket, data) {
 async function handleDisconnection(socket) {
     console.log(`A user disconnected  ${socket.id}`);
     // Remove disconnected client from the list
+
+
+    socket.broadcast.emit('userLeft', socket.id);
+
     clients = clients.filter((client) => client !== socket);
 
     socket.emit('userCount', clients.length);
+
+
 }
 
 module.exports = { handleWebSocketEvents };
