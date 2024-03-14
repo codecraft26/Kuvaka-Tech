@@ -96,6 +96,7 @@ const App = () => {
         </div>
       </div>
       <form id="form" onSubmit={handleSubmit}>
+         <p id="user-count">Users Online: {userCount}</p>
         <input
           id="input"
           autoComplete="off"
