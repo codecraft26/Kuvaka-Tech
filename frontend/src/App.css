@@ -14,11 +14,11 @@
 }
 
 
-.chat-list-container {
+#chat-list-container {
   height: 100%;
 }
 
-.messages {
+#messages {
   list-style-type: none;
   padding: 0;
   margin: 0;
