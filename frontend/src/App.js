@@ -1,9 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
+import React from 'react'
+import { useState, useEffect, useRef } from "react";
 import io from "socket.io-client";
 import toastr from "toastr";
-import "toastr/build/toastr.min.css";
+import "toastr/build/toastr.css";
+import ChatForm from "./components/ChatForm";
+import ChatMessage from "./components/ChatMessage";
 import "./App.css";
-
+import UserCount from './components/UserCount';
 const App = () => {
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState("");
@@ -76,36 +79,19 @@ const App = () => {
   return (
     <div className="container">
       <div id="chat-container" ref={chatContainerRef}>
-        {/* <h3 id="user-count">Users Online: {userCount}</h3> */}
+        <div className='userCountContainer'>
+        <UserCount count={userCount} />
+        </div>
+     
         <div className="chat-list-container">
           <ul id="messages" className="messages">
             {messages.map((msg, index) => (
-              <li
-                key={index}
-                className={`message ${
-                  msg.sender === "You" ? "own-message" : "other-message"
-                }`}
-              >
-                <div className="message-content">{msg.message}</div>
-                {msg.sender !== "You" && (
-                  <span className="sender"> - {msg.sender}</span>
-                )}
-              </li>
+              <ChatMessage key={index} message={msg.message} sender={msg.sender} />
             ))}
           </ul>
         </div>
       </div>
-      <form id="form" onSubmit={handleSubmit}>
-         <p id="user-count">Users Online: {userCount}</p>
-        <input
-          id="input"
-          autoComplete="off"
-          placeholder="Type a message..."
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-        />
-        <button type="submit">Send</button>
-      </form>
+      <ChatForm onSubmit={handleSubmit} value={inputValue} onChange={(e) => setInputValue(e.target.value)} />
     </div>
   );
 };

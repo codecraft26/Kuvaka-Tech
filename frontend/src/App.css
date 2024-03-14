@@ -86,16 +86,13 @@
   cursor: pointer;
 }
 
-.scroll-up-indicator {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  /* Adjust size, color, and other styles as needed */
-  opacity: 0; /* Initially hidden */
-  cursor: pointer;
-  transition: opacity 0.2s ease-in-out;
-}
 
-.scroll-up-indicator.visible {
-  opacity: 1;
+
+.userCountContainer {
+  position: fixed;
+  top: 4px;
+  right: 17px;
+  background-color: white;
+  padding: 1px;
+  border: 1px solid #ccc;
 }
