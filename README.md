@@ -38,6 +38,27 @@ https://kuvaka-tech.onrender.com
 React.js for building the user interface.
 ### Socket Library: 
 Socket.IO for bidirectional communication between server and client.
+## Application Architecture and Concurrency Handling
+
+The application follows a client-server architecture where the server handles communication between multiple clients. Concurrency is managed using the async and await keywords in JavaScript. Asynchronous operations, such as handling client connections and broadcasting messages, are performed using async functions and await promises to ensure non-blocking execution.
+
+### Server Architecture:
+
+- The server listens for incoming connections on a specified port using asynchronous I/O.
+- Each client connection is managed using asynchronous functions, allowing the server to handle multiple connections concurrently.
+- Messages received from clients are broadcasted to all connected clients except the sender using asynchronous broadcasting functions.
+
+### Client Architecture:
+
+- The client interface is built using React, providing a responsive and interactive user interface.
+- User messages are sent to the server asynchronously, ensuring smooth communication without blocking the user interface.
+- Messages from other users are displayed in real-time, utilizing React's state management to update the UI efficiently.
+
+### Assumptions and Design Choices
+
+- Async/Await Architecture: The application uses async/await for concurrency handling to simplify code readability and manage asynchronous operations effectively.
+- Socket.IO Library: Socket.IO is chosen for bidirectional communication between server and client due to its ease of use and wide support for real-time applications.
+- React for Frontend: React is selected for building the client interface because of its component-based architecture, which facilitates building interactive and reusable UI components.
 ## Run Locally
 
 Clone the project
