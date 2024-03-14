@@ -2,7 +2,7 @@
   background-color: #ffffff;
 }
 
-#chat-container {
+.chat-container {
   height: 90vh; /* Adjust the height as per your requirement */
   overflow-y: auto;
   margin: auto;
@@ -14,8 +14,8 @@
 }
 
 
-#chat-list-container {
-  height: 100%;
+.chat-list-container {
+ height: 100%;
 }
 
 #messages {
