@@ -11,20 +11,7 @@ const useChatSocket = () => {
   const chatContainerRef = useRef(null);
 
   useEffect(() => {
-    const initializeSocket = () => {
-      socket.current = io("http://localhost:4000", { transports: ["websocket"] });
-  
-      socket.current.on("message", handleMessage);
-      socket.current.on("userCount", handleUserCount);
-      socket.current.on("newUserConnected", handleNewUserConnected);
-      socket.current.on("userLeft", handleUserLeft);
-    };
-  
-    const disconnectSocket = () => {
-      if (socket.current) {
-        socket.current.disconnect();
-      }
-    };
+
   
     initializeSocket();
   
@@ -35,6 +22,20 @@ const useChatSocket = () => {
 
 
 
+  const initializeSocket = () => {
+    socket.current = io(process.env.REACT_APP_API_URL, { transports: ["websocket"] });
+
+    socket.current.on("message", handleMessage);
+    socket.current.on("userCount", handleUserCount);
+    socket.current.on("newUserConnected", handleNewUserConnected);
+    socket.current.on("userLeft", handleUserLeft);
+  };
+
+  const disconnectSocket = () => {
+    if (socket.current) {
+      socket.current.disconnect();
+    }
+  };
 
   const handleMessage = (data) => {
     setMessages((prevMessages) => [
@@ -57,7 +58,7 @@ const useChatSocket = () => {
     toastr.info(`${newUserId} has joined the chat.`);
     setUserCount((prevCount) => prevCount + 1);
   };
-
+ // when user left the chat
   const handleUserLeft = (disconnectedSocketId) => {
     toastr.options = {
       closeButton: true,
@@ -67,7 +68,7 @@ const useChatSocket = () => {
     toastr.info(`${disconnectedSocketId} has left the chat.`);
     setUserCount((prevCount) => Math.max(0, prevCount - 1));
   };
-
+//for sending the message 
   const sendMessage = (message) => {
     if (socket.current) {
       socket.current.emit("message", { message });
